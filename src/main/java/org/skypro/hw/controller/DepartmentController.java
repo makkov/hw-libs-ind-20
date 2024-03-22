@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/department")
 public class DepartmentController {
 
     @ExceptionHandler({HttpStatusCodeException.class})
@@ -23,18 +23,28 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/max-salary")
-    public Employee getEmployeeWithMaxSalary(@RequestParam Integer departmentId) {
-        return departmentService.getEmployeeWithMaxSalary(departmentId);
+    @GetMapping("/{id}/employees")
+    public List<Employee> getEmployeesByDepartment(@PathVariable Integer id) {
+        return departmentService.getEmployeesByDepartment(id);
     }
 
-    @GetMapping("/min-salary")
-    public Employee getEmployeeWithMinSalary(@RequestParam Integer departmentId) {
-        return departmentService.getEmployeeWithMinSalary(departmentId);
+    @GetMapping("/{id}/salary/sum")
+    public Double getSalarySumByDepartment(@PathVariable Integer id) {
+        return departmentService.getSalarySumByDepartment(id);
     }
 
-    @GetMapping("/all")
-    public Map<Integer, List<Employee>> getEmployeesByDepartment(@RequestParam(required = false) Integer departmentId) {
-        return departmentService.getEmployeesByDepartment(departmentId);
+    @GetMapping("/{id}/salary/max")
+    public Double getMinSalaryInDepartment(@PathVariable Integer id) {
+        return departmentService.getMinSalaryInDepartment(id);
+    }
+
+    @GetMapping("/{id}/salary/min")
+    public Double getMaxSalaryInDepartment(@PathVariable Integer id) {
+        return departmentService.getMaxSalaryInDepartment(id);
+    }
+
+    @GetMapping("/employees")
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment() {
+        return departmentService.getAllEmployeesByDepartment();
     }
 }

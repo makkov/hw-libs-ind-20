@@ -22,7 +22,7 @@ public class DepartmentService {
         this.employeeService = employeeService;
     }
 
-    public Employee getEmployeeWithMaxSalary(Integer departmentId) {
+    public Double getMaxSalaryInDepartment(Integer departmentId) {
         /*
         Пример поиска без стрима:
         List<Employee> employees = employeeService.getAll();
@@ -47,19 +47,33 @@ public class DepartmentService {
         return employeeService.getAll().stream()
                 .filter(employee -> employee.getDepartmentId() == departmentId)
                 .max(Comparator.comparing(Employee::getSalary))
+                .map(Employee::getSalary)
                 .orElseThrow(() -> new EmployeeNotFoundException("Сотрудник с максимальной зарплатой не найден"));
     }
 
-    public Employee getEmployeeWithMinSalary(Integer departmentId) {
+    public Double getMinSalaryInDepartment(Integer departmentId) {
         return employeeService.getAll().stream()
                 .filter(employee -> employee.getDepartmentId() == departmentId)
                 .min(Comparator.comparing(Employee::getSalary))
+                .map(Employee::getSalary)
                 .orElseThrow(() -> new EmployeeNotFoundException("Сотрудник с минимальной зарплатой не найден"));
     }
 
-    public Map<Integer, List<Employee>> getEmployeesByDepartment(Integer departmentId) {
+    public List<Employee> getEmployeesByDepartment(Integer departmentId) {
         return employeeService.getAll().stream()
-                .filter(e -> departmentId == null || e.getDepartmentId() == departmentId)
+                .filter(employee -> employee.getDepartmentId() == departmentId)
+                .collect(toList());
+    }
+
+    public Double getSalarySumByDepartment(Integer departmentId) {
+        return employeeService.getAll().stream()
+                .filter(employee -> employee.getDepartmentId() == departmentId)
+                .map(Employee::getSalary)
+                .reduce(0.0, Double::sum);
+    }
+
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment() {
+        return employeeService.getAll().stream()
                 .collect(groupingBy(Employee::getDepartmentId, toList()));
     }
 }
