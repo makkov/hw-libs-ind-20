@@ -16,7 +16,7 @@ public class EmployeeService {
 
     private final List<Employee> employees = new ArrayList<>();
 
-    private final static int MAX_SIZE = 10;
+    private final static int MAX_SIZE = 2;
 
     public Employee add(String firstName, String lastName, double salary, int departmentId) {
         validateCapitalize(firstName, lastName);
