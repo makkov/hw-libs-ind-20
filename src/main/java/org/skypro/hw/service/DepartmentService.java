@@ -21,27 +21,6 @@ public class DepartmentService {
     }
 
     public Double getMaxSalaryInDepartment(Integer departmentId) {
-        /*
-        Пример поиска без стрима:
-        List<Employee> employees = employeeService.getAll();
-
-        double maxSalary = Double.MIN_VALUE;
-        Employee employeeWithMaxSalary = null;
-
-        for (Employee e : employees) {
-            if (e.getDepartmentId() == departmentId && e.getSalary() > maxSalary) {
-                maxSalary = e.getSalary();
-                employeeWithMaxSalary = e;
-            }
-        }
-
-        if (employeeWithMaxSalary == null) {
-            throw new EmployeeNotFoundException("Сотрудник с максимальной зарплатой не найден");
-        } else {
-            return employeeWithMaxSalary;
-        }
-        */
-
         return employeeService.getAll().stream()
                 .filter(employee -> employee.getDepartmentId() == departmentId)
                 .max(Comparator.comparing(Employee::getSalary))
